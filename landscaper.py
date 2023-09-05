@@ -23,7 +23,6 @@ def start():
                         [1] mow
                         [2] buy
                         """))
-    print(user_input)
     return user_input
 
 ## selection function should
@@ -48,14 +47,21 @@ def selection(select):
 def mow():
     global money
     money = (money + tools[current_tool]["income"])
-    print(f"You made {tools[current_tool]['income']} dollars.")
+    print(f"You made {tools[current_tool]['income']} dollar(s).")
 
 ## upgrade function
 # - check to see if money is enough to buy the next tool
 # - if so upgrades tool by incrementing current_tool
 # - if not, print message saying money isn't enough
 def upgrade():
-    return 0
+    global current_tool, money
+    next_tool = current_tool+1
+    if(money >= tools[next_tool]["price"]):
+        print("You bought the next tool!")
+        current_tool = next_tool
+        money = money - tools[next_tool]["price"]
+    else:
+        print("You don't have enough money!")
 
 
 
@@ -65,11 +71,13 @@ def upgrade():
 # If false, print the players money total and tool and run game_loop()
 def win_conditions():
     global current_tool, money
-    if(current_tool == 4 & money >= 1000):
-        print("You win!")
+    if((current_tool == 4) & (money >= 1000)):
+        print("You made 1000 dollars and won!")
         return True
     else:
         print(f"Your current money is {money}.")
+        print(current_tool)
+        print(money)
         game_loop()
 
 
